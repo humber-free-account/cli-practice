@@ -8,6 +8,7 @@
 // differently. There are many paths and approaches that result in a perfectly
 // valid finished product.
 const { checkIfUndefined, isValidAmount, checkIfValidCurrency } = require('../src/validator-function');
+const { converterUtility } = require('../src/converter-utility');
 
 // --------------------------------------------------
 // Step 1: Capture user input
@@ -17,7 +18,6 @@ const { checkIfUndefined, isValidAmount, checkIfValidCurrency } = require('../sr
 const amount = process.argv[2];
 const baseCurrency = process.argv[3];
 const targetCurrency = process.argv[4];
-let validCurrencies = ["CAD", "USD", "GBP", "EUR"];
 
 // --------------------------------------------------
 // Step 2: Validate user input
@@ -63,10 +63,8 @@ if( errorMessage !== undefined)
 // We will use the official currency abbreviation for each currency (eg. USD, CAD, etc.).
 // The conversion rates do not have to be accurate, athough this resource contains
 // up-to-date rate information: https://www.xe.com/
-const USD = 1;
-const CAD = 1.28;
-const EUR = 0.88;
-const GBP = 0.76;
+
+// **** Step 3 is in converter-utility.js file **** 
 
 // --------------------------------------------------
 // Step 4: Ensure that a conversion rate exists
@@ -97,67 +95,7 @@ if(errorMessage !== undefined)
 // At this point we've confirmed that the user has supplied all of the necessary
 // information, and that a rate exists for each of the currencies.
 // Now we will compute the rate, apply it to the amount, and capture the result.
-let convertedAmount = 0;
-if(baseCurrency == "USD" )
-{
-    if(targetCurrency == "CAD")
-    {
-        convertedAmount = amount * CAD;
-    }
-    else if (targetCurrency == "EUR")
-    {
-        convertedAmount = amount * EUR;
-    }
-    else if (targetCurrency == "GBP")
-    {
-        convertedAmount = amount * GBP;
-    }
-}
-else if(baseCurrency == "CAD" )
-{
-    if(targetCurrency == "USD")
-    {
-        convertedAmount = amount/CAD;
-    }
-    else if (targetCurrency == "EUR")
-    {
-        convertedAmount = amount/CAD * EUR;
-    }
-    else if (targetCurrency == "GBP")
-    {
-        convertedAmount = amount/CAD * GBP;
-    }
-}
-else if(baseCurrency == "EUR" )
-{
-    if(targetCurrency == "USD")
-    {
-        convertedAmount = amount/EUR;
-    }
-    else if (targetCurrency == "CAD")
-    {
-        convertedAmount = amount/EUR * CAD;
-    }
-    else if (targetCurrency == "GBP")
-    {
-        convertedAmount = amount/EUR * GBP;
-    }
-}
-else if(baseCurrency == "GBP" )
-{
-    if(targetCurrency == "USD")
-    {
-        convertedAmount = amount/GBP;
-    }
-    else if (targetCurrency == "CAD")
-    {
-        convertedAmount = amount/GBP * CAD;
-    }
-    else if (targetCurrency == "EUR")
-    {
-        convertedAmount = amount/GBP * EUR;
-    }
-}
+let convertedAmount = converterUtility(amount, baseCurrency, targetCurrency);
 
 // --------------------------------------------------
 // Step 6: Display results
@@ -167,7 +105,3 @@ else if(baseCurrency == "GBP" )
 // This message should also include the original amount and currency information
 // supplied by the user.
 console.log(`Conversion Rate for ${baseCurrency} ${amount} is ${targetCurrency} ${convertedAmount.toFixed(2)}`);
-
-module.exports = {
-    validCurrencies
-};
