@@ -12,23 +12,71 @@
 // Step 1: Capture user input
 // --------------------------------------------------
 // In this step we will capture the command line  information supplied by the user.
+// We will store each piece of information in a dedicated variable for later use.
 const amount = process.argv[2];
 const baseCurrency = process.argv[3];
 const targetCurrency = process.argv[4];
-console.log(amount + baseCurrency + targetCurrency);
-// We will store each piece of information in a dedicated variable for later use.
-
-
+let validCurrencies = ["CAD", "USD", "INR", "MXN", "GBP", "EUR", "SGD"];
 
 // --------------------------------------------------
 // Step 2: Validate user input
 // --------------------------------------------------
 // Next we will ensure that the user has provided all of the require information.
-
 // If any of the required information is missing, display a meaningful message
 // and exit the program.
+let hasError = false;
+let errorMessage = "";
+if (amount < 0)
+{
+    hasError = true;
+    errorMessage = "Invalid Input, The amount given is less than Zero. Value: " +amount;
+}
 
+if(checkIfUndefined(amount, "Amount"))
+{
+    console.error(errorMessage);
+}
 
+if(checkIfUndefined(baseCurrency, "Base Currency"))
+{
+    console.error(errorMessage);
+}
+
+if(checkIfUndefined(targetCurrency, "Target Currency"))
+{
+    console.error(errorMessage);
+}
+
+function checkIfUndefined(field, fieldName)
+{
+    if(field === undefined){
+        errorMessage = "Invalid Input for "+ fieldName +". Value: "+ field;
+        return true;
+    }
+
+    return false;
+}
+
+if(!checkIfValidCurrency(baseCurrency, "Base Currency"))
+{
+    console.error(errorMessage);
+}
+
+if(!checkIfValidCurrency(targetCurrency, "Target Currency"))
+{
+    console.error(errorMessage);
+}
+
+function checkIfValidCurrency(currency, currencyName)
+{
+    if(!validCurrencies.includes(currency))
+    {
+        errorMessage = "The "+ currencyName + " is not a valid Global Currency. Value: "+ currency + ". The supported currencies are: "+ validCurrencies;
+        return false;
+    }
+
+    return true;
+}
 
 // --------------------------------------------------
 // Step 3: Define currency conversion rates
