@@ -24,27 +24,29 @@ let validCurrencies = ["CAD", "USD", "INR", "MXN", "GBP", "EUR", "SGD"];
 // Next we will ensure that the user has provided all of the require information.
 // If any of the required information is missing, display a meaningful message
 // and exit the program.
-let hasError = false;
 let errorMessage = "";
 if (amount < 0)
 {
-    hasError = true;
     errorMessage = "Invalid Input, The amount given is less than Zero. Value: " +amount;
+    process.exit();
 }
 
 if(checkIfUndefined(amount, "Amount"))
 {
     console.error(errorMessage);
+    process.exit();
 }
 
 if(checkIfUndefined(baseCurrency, "Base Currency"))
 {
     console.error(errorMessage);
+    process.exit();
 }
 
 if(checkIfUndefined(targetCurrency, "Target Currency"))
 {
     console.error(errorMessage);
+    process.exit();
 }
 
 function checkIfUndefined(field, fieldName)
@@ -57,40 +59,22 @@ function checkIfUndefined(field, fieldName)
     return false;
 }
 
-if(!checkIfValidCurrency(baseCurrency, "Base Currency"))
-{
-    console.error(errorMessage);
-}
-
-if(!checkIfValidCurrency(targetCurrency, "Target Currency"))
-{
-    console.error(errorMessage);
-}
-
-function checkIfValidCurrency(currency, currencyName)
-{
-    if(!validCurrencies.includes(currency))
-    {
-        errorMessage = "The "+ currencyName + " is not a valid Global Currency. Value: "+ currency + ". The supported currencies are: "+ validCurrencies;
-        return false;
-    }
-
-    return true;
-}
-
 // --------------------------------------------------
 // Step 3: Define currency conversion rates
 // --------------------------------------------------
 // Here we will define which currency conversions are supported, as well as the
 // rates between each currency. We will capture this information as an object
 // and store it in dedicated varaible for later use.
-
 // We will use the official currency abbreviation for each currency (eg. USD, CAD, etc.).
-
 // The conversion rates do not have to be accurate, athough this resource contains
 // up-to-date rate information: https://www.xe.com/
-
-
+const USD = 1;
+const CAD = 1.28;
+const EUR = 0.88;
+const INR = 75.23;
+const GBP = 0.76;
+const MXN = 180;
+const SGD = 1.23;
 
 // --------------------------------------------------
 // Step 4: Ensure that a conversion rate exists
@@ -102,13 +86,11 @@ function checkIfValidCurrency(currency, currencyName)
 // warning message and exit the program.
 
 
-
 // --------------------------------------------------
 // Step 5: Perform conversion
 // --------------------------------------------------
 // At this point we've confirmed that the user has supplied all of the necessary
 // information, and that a rate exists for each of the currencies.
-
 // Now we will compute the rate, apply it to the amount, and capture the result.
 
 
