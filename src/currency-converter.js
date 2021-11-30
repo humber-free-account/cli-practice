@@ -7,6 +7,7 @@
 // in a functional, testable program. However, please free to approach the problem
 // differently. There are many paths and approaches that result in a perfectly
 // valid finished product.
+const { checkIfUndefined, isValidAmount, checkIfValidCurrency } = require('../src/validator-function');
 
 // --------------------------------------------------
 // Step 1: Capture user input
@@ -25,38 +26,32 @@ let validCurrencies = ["CAD", "USD", "GBP", "EUR"];
 // If any of the required information is missing, display a meaningful message
 // and exit the program.
 let errorMessage = "";
-if (amount < 0)
-{
-    errorMessage = "Invalid Input, The amount given is less than Zero. Value: " +amount;
-    process.exit();
-}
-
-if(checkIfUndefined(amount, "Amount"))
+errorMessage = isValidAmount(amount);
+if( errorMessage !== undefined)
 {
     console.error(errorMessage);
     process.exit();
 }
 
-if(checkIfUndefined(baseCurrency, "Base Currency"))
+errorMessage = checkIfUndefined(amount, "Amount");
+if( errorMessage !== undefined)
 {
     console.error(errorMessage);
     process.exit();
 }
 
-if(checkIfUndefined(targetCurrency, "Target Currency"))
+errorMessage = checkIfUndefined(baseCurrency, "Base Currency");
+if( errorMessage !== undefined)
 {
     console.error(errorMessage);
     process.exit();
 }
 
-function checkIfUndefined(field, fieldName)
+errorMessage = checkIfUndefined(targetCurrency, "Target Currency");
+if( errorMessage !== undefined)
 {
-    if(field === undefined){
-        errorMessage = "Invalid Input for "+ fieldName +". Value: "+ field;
-        return true;
-    }
-
-    return false;
+    console.error(errorMessage);
+    process.exit();
 }
 
 // --------------------------------------------------
@@ -81,28 +76,19 @@ const GBP = 0.76;
 
 // If the user supplies an invalid initial or target currency, display a meaningful
 // warning message and exit the program.
-if(!checkIfValidCurrency(baseCurrency, "Base Currency"))
+errorMessage = checkIfValidCurrency(baseCurrency, "Base Currency")
+if(errorMessage !== undefined)
 {
     console.error(errorMessage);
     process.exit();
 }
 
-if(!checkIfValidCurrency(targetCurrency, "Target Currency"))
+errorMessage = checkIfValidCurrency(targetCurrency, "Target Currency");
+if(errorMessage !== undefined)
 {
     console.error(errorMessage);
     process.exit();
-}
-
-function checkIfValidCurrency(currency, currencyName)
-{
-    if(!validCurrencies.includes(currency))
-    {
-        errorMessage = "The "+ currencyName + " is not a valid Global Currency. Value: "+ currency + ". The supported currencies are: "+ validCurrencies;
-        return false;
-    }
-
-    return true;
-}
+} 
 
 
 // --------------------------------------------------
@@ -131,7 +117,7 @@ else if(baseCurrency == "CAD" )
 {
     if(targetCurrency == "USD")
     {
-        convertedAmount = amount / USD;
+        convertedAmount = amount/CAD;
     }
     else if (targetCurrency == "EUR")
     {
@@ -146,7 +132,7 @@ else if(baseCurrency == "EUR" )
 {
     if(targetCurrency == "USD")
     {
-        convertedAmount = amount / USD;
+        convertedAmount = amount/EUR;
     }
     else if (targetCurrency == "CAD")
     {
@@ -161,7 +147,7 @@ else if(baseCurrency == "GBP" )
 {
     if(targetCurrency == "USD")
     {
-        convertedAmount = amount / USD;
+        convertedAmount = amount/GBP;
     }
     else if (targetCurrency == "CAD")
     {
@@ -181,3 +167,7 @@ else if(baseCurrency == "GBP" )
 // This message should also include the original amount and currency information
 // supplied by the user.
 console.log(`Conversion Rate for ${baseCurrency} ${amount} is ${targetCurrency} ${convertedAmount.toFixed(2)}`);
+
+module.exports = {
+    validCurrencies
+};
