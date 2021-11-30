@@ -180,3 +180,4 @@ else if(baseCurrency == "GBP" )
 
 // This message should also include the original amount and currency information
 // supplied by the user.
+console.log(`Conversion Rate for ${baseCurrency} ${amount} is ${targetCurrency} ${convertedAmount.toFixed(2)}`);
