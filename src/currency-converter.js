@@ -84,6 +84,28 @@ const SGD = 1.23;
 
 // If the user supplies an invalid initial or target currency, display a meaningful
 // warning message and exit the program.
+if(!checkIfValidCurrency(baseCurrency, "Base Currency"))
+{
+    console.error(errorMessage);
+    process.exit();
+}
+
+if(!checkIfValidCurrency(targetCurrency, "Target Currency"))
+{
+    console.error(errorMessage);
+    process.exit();
+}
+
+function checkIfValidCurrency(currency, currencyName)
+{
+    if(!validCurrencies.includes(currency))
+    {
+        errorMessage = "The "+ currencyName + " is not a valid Global Currency. Value: "+ currency + ". The supported currencies are: "+ validCurrencies;
+        return false;
+    }
+
+    return true;
+}
 
 
 // --------------------------------------------------
