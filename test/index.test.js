@@ -11,7 +11,7 @@
 // same file for illustrative and learning purposes.
 
 const { checkIfUndefined, isValidAmount, checkIfValidCurrency } = require('../src/validator-function');
-const { validCurrencies } = require ('../src/validator-function');
+const { converterUtility } = require ('../src/converter-utility');
 
 //Negative test case with empty value to check if undefined
 describe('checkIfUndefined()', () => {
@@ -90,5 +90,37 @@ describe('checkIfValidCurrency()', () => {
   test('should return the message: "The Base Currency is not a valid Global Currency. Value: CD. The supported currencies are: CAD,USD,GBP,EUR"', () => {
     const result = checkIfValidCurrency("CD", "Base Currency");
     expect(result).toBe("The Base Currency is not a valid Global Currency. Value: CD. The supported currencies are: CAD,USD,GBP,EUR");
+  });
+});
+
+//Currency conversion value test case CAD to USD
+describe('converterUtility()', () => {
+  test('should return the message: "0.78125"', () => {
+    const result = converterUtility(1, "CAD", "USD");
+    expect(result).toBe(0.78125);
+  });
+});
+
+//Currency conversion value test case USD to CAD
+describe('converterUtility()', () => {
+  test('should return the message: "1.28"', () => {
+    const result = converterUtility(1, "USD", "CAD");
+    expect(result).toBe(1.28);
+  });
+});
+
+//Currency conversion value test case GBP to CAD
+describe('converterUtility()', () => {
+  test('should return the message: "11.52"', () => {
+    const result = converterUtility(9, "USD", "CAD");
+    expect(result).toBe(11.52);
+  });
+});
+
+//Currency conversion value test case EUR to USD
+describe('converterUtility()', () => {
+  test('should return the message: "23.04"', () => {
+    const result = converterUtility(18, "USD", "CAD");
+    expect(result).toBe(23.04);
   });
 });
