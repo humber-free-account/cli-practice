@@ -16,7 +16,7 @@
 const amount = process.argv[2];
 const baseCurrency = process.argv[3];
 const targetCurrency = process.argv[4];
-let validCurrencies = ["CAD", "USD", "INR", "MXN", "GBP", "EUR", "SGD"];
+let validCurrencies = ["CAD", "USD", "GBP", "EUR"];
 
 // --------------------------------------------------
 // Step 2: Validate user input
@@ -71,10 +71,7 @@ function checkIfUndefined(field, fieldName)
 const USD = 1;
 const CAD = 1.28;
 const EUR = 0.88;
-const INR = 75.23;
 const GBP = 0.76;
-const MXN = 180;
-const SGD = 1.23;
 
 // --------------------------------------------------
 // Step 4: Ensure that a conversion rate exists
@@ -114,8 +111,67 @@ function checkIfValidCurrency(currency, currencyName)
 // At this point we've confirmed that the user has supplied all of the necessary
 // information, and that a rate exists for each of the currencies.
 // Now we will compute the rate, apply it to the amount, and capture the result.
-
-
+let convertedAmount = 0;
+if(baseCurrency == "USD" )
+{
+    if(targetCurrency == "CAD")
+    {
+        convertedAmount = amount * CAD;
+    }
+    else if (targetCurrency == "EUR")
+    {
+        convertedAmount = amount * EUR;
+    }
+    else if (targetCurrency == "GBP")
+    {
+        convertedAmount = amount * GBP;
+    }
+}
+else if(baseCurrency == "CAD" )
+{
+    if(targetCurrency == "USD")
+    {
+        convertedAmount = amount / USD;
+    }
+    else if (targetCurrency == "EUR")
+    {
+        convertedAmount = amount/CAD * EUR;
+    }
+    else if (targetCurrency == "GBP")
+    {
+        convertedAmount = amount/CAD * GBP;
+    }
+}
+else if(baseCurrency == "EUR" )
+{
+    if(targetCurrency == "USD")
+    {
+        convertedAmount = amount / USD;
+    }
+    else if (targetCurrency == "CAD")
+    {
+        convertedAmount = amount/EUR * CAD;
+    }
+    else if (targetCurrency == "GBP")
+    {
+        convertedAmount = amount/EUR * GBP;
+    }
+}
+else if(baseCurrency == "GBP" )
+{
+    if(targetCurrency == "USD")
+    {
+        convertedAmount = amount / USD;
+    }
+    else if (targetCurrency == "CAD")
+    {
+        convertedAmount = amount/GBP * CAD;
+    }
+    else if (targetCurrency == "EUR")
+    {
+        convertedAmount = amount/GBP * EUR;
+    }
+}
 
 // --------------------------------------------------
 // Step 6: Display results
